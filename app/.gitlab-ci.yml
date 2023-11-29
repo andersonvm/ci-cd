@@ -1,0 +1,11 @@
+stages:
+  - build
+  - deploy
+
+criar_imagens:
+  stage: build
+  tags:
+    - aws
+  script:
+  - docker build -t andersonvm/app-bootcamp-devops:1.0 app/.
+  - docker push andersonvm/app-bootcamp-devops:1.0
