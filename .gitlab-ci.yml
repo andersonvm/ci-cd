@@ -2,13 +2,16 @@ stages:
   - build
   - deploy
 
+variables:
+  GLOBAL_VAR: "2.0"
+
 criar_imagens:
   stage: build
   tags:
     - aws
   script:
-  - docker build -t andersonvm/app-bootcamp-devops:1.0 app/.
-  - docker push andersonvm/app-bootcamp-devops:1.0
+  - docker build -t andersonvm/app-bootcamp-devops:$GLOBAL_VAR app/.
+  - docker push andersonvm/app-bootcamp-devops:$GLOBAL_VAR
 
 executar_imagens:
   stage: deploy
@@ -16,5 +19,9 @@ executar_imagens:
     - criar_imagens
   tags:
     - aws
+  before_script:
+  - docker rm $(docker ps -a -q) --force
   script:
-  - docker container run -dti --name web-server -p 80:80 andersonvm/app-bootcamp-devops:1.0
+  - docker container run -dti --name web-server -p 80:80 andersonvm/app-bootcamp-devops:$GLOBAL_VAR
+  after_script:
+  - docker system prune --force
