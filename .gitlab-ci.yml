@@ -3,7 +3,7 @@ stages:
   - deploy
 
 variables:
-  GLOBAL_VAR: "2.0"
+  GLOBAL_VAR: "3.0"
 
 criar_imagens:
   stage: build
